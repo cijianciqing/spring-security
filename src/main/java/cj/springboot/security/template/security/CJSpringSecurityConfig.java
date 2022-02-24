@@ -35,8 +35,11 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
 
 
 
@@ -56,10 +59,22 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //设置认证失败处理
                 .failureHandler(imoocAuthenctiationFailureHandler);
 
-        http
+
+     /*   http    //先配置那些httpq请求需要此httpsecurity
+                .requestMatchers()
+                .antMatchers("/cjsec/**")
+                .and()
                 .authorizeRequests()
-                .antMatchers("/login","/cjRequireLogin").anonymous()
-                .anyRequest().access("@rbacService.hasPermission(request, authentication)");
+                .antMatchers("/cjsec/test1").anonymous()
+                .anyRequest().access("@rbacService.hasPermission(request, authentication)");*/
+
+        http    //先配置那些httpq请求需要此httpsecurity
+                .requestMatchers()
+                    .antMatchers("/**")
+                .and()
+                    .authorizeRequests()
+                        .antMatchers("/login","/cjRequireLogin").anonymous()
+                        .anyRequest().access("@rbacService.hasPermission(request, authentication)");
 
         http
                 .csrf().disable();
@@ -81,7 +96,7 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //注销成功后的处理
                 .logoutSuccessHandler(logoutSuccessHandler);
     }
-  /*  @Override
+    @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
 //        配置css.js.等静态资源
@@ -90,5 +105,5 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/sb2Static/**");
         web.ignoring().antMatchers("/icon/**");
         web.ignoring().antMatchers("/cjStatic/**");
-    }*/
+    }
 }

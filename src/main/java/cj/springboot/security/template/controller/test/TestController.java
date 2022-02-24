@@ -38,17 +38,25 @@ import java.util.Map;
 @RestController
 public class TestController {
 
+    @RequestMapping(value ="/test")
+    public void testController(){
+        System.out.println("cj.springboot.security.template.controller.test.TestController.testController....");
+    }
 
-    @RequestMapping(value = "/testControllerProduce")
+    @RequestMapping(value ="/cjsec/test1")
     public void testController01(){
-        System.out.println("cj.springboot.template.controller.test.TestController.testController01....");
+        System.out.println("cj.springboot.security.template.controller.test.TestController.testController01....");
+    }
+    @RequestMapping(value = "/cjsec/test2")
+    public void testController02(){
+        System.out.println("cj.springboot.security.template.controller.test.TestController.testController01....");
     }
 
 
-    @RequestMapping(value = "/login2")
-    public String testController02(){
-        log.info("cj.springboot.security.template.controller.test.TestController.testController02....");
-        return "CJLogin2";
+    @RequestMapping(value = "/cjsec/test3")
+    public String testController03(){
+        System.out.println("cj.springboot.security.template.controller.test.TestController.testController03....");
+        return "CJLogin3";
     }
 
 

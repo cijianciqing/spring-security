@@ -24,6 +24,12 @@ public class CJRBACServiceImpl {
 
         boolean hasPermission = false;
 
+
+        if (antPathMatcher.match("/cjsec/test2",request.getRequestURI())) {
+            hasPermission = true;
+        }
+        log.info("cj ==>" + request.getRequestURI() + "==>has Permission!!!");
+
         //有可能是匿名用户
         cjI1:
         if (principal instanceof UserDetails) {
@@ -38,7 +44,7 @@ public class CJRBACServiceImpl {
                 hasPermission = true;
                 break cjI1;
             }
-            if (antPathMatcher.match("/cjValidURL",request.getRequestURI())) {
+            if (antPathMatcher.match("/cjsec/test2",request.getRequestURI())) {
                     hasPermission = true;
                 }
             log.info("cj ==>" + username + "==>has Permission!!!");

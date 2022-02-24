@@ -45,7 +45,11 @@ public class TestController {
     }
 
 
-
+    @RequestMapping(value = "/login2")
+    public String testController02(){
+        log.info("cj.springboot.security.template.controller.test.TestController.testController02....");
+        return "CJLogin2";
+    }
 
 
 

@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 /*暂时禁用此功能，便于开发调试*/
-@Profile("pro")
+//@Profile("pro")
 @ControllerAdvice
 public class CJGlobalExceptionHandler {
 //
@@ -41,7 +41,7 @@ public class CJGlobalExceptionHandler {
     /*全局异常处理*/
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e, HttpServletRequest request) {
-
+        log.info("CJGlobalExceptionHandler:",e.getMessage(),e.getClass().toString());
         Map<String, Object> map = new HashMap<>();
 
         //设置状态码

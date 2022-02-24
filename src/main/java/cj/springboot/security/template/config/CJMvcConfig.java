@@ -1,15 +1,45 @@
 package cj.springboot.security.template.config;
 
+import cj.springboot.security.template.config.servlet.CJTestFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Configuration
 @EnableWebMvc
 @EnableScheduling
 public class CJMvcConfig implements WebMvcConfigurer {
+
+	/*
+	* 注册自定义的Filter
+	* */
+	@Bean
+	public FilterRegistrationBean timeFilter() {
+
+		FilterRegistrationBean registrationan = new FilterRegistrationBean();
+
+		CJTestFilter timeFilter = new CJTestFilter();
+
+		registrationan.setFilter(timeFilter);
+
+
+		List<String> urls = new ArrayList<>();
+
+		urls.add("/*");
+
+		registrationan.setUrlPatterns(urls);
+
+		registrationan.setOrder(Integer.MIN_VALUE);
+		return registrationan;
+
+	}
 
 	//不通过controller,直接跳转
 	@Override

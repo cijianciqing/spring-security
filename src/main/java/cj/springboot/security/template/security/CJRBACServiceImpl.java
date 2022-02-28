@@ -1,6 +1,7 @@
 package cj.springboot.security.template.security;
 
 
+import cj.springboot.security.template.util.redis.CJRedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,12 +18,17 @@ public class CJRBACServiceImpl {
 
     AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    @Autowired
+    private CJRedisCache redisCache;
 
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
 
         Object principal = authentication.getPrincipal();
 
+
+
         boolean hasPermission = false;
+
 
 
         if (antPathMatcher.match("/cjsec/test2",request.getRequestURI())) {
@@ -30,9 +36,11 @@ public class CJRBACServiceImpl {
         }
         log.info("cj ==>" + request.getRequestURI() + "==>has Permission!!!");
 
-        //有可能是匿名用户
+        //有可能是匿名用户,有则说明是认证过的？？？
         cjI1:
         if (principal instanceof UserDetails) {
+
+
             String username = ((UserDetails) principal).getUsername();
 
             //读取所有权限

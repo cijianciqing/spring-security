@@ -1,9 +1,11 @@
-package com.ns.cjcq.security.crud.domain;
-
+package cj.springboot.security.template.security;
 
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotation;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)//出现这种问题的情况是由于JSON里面包含了实体没有的字段导致反序列化失败
 public class CJUser implements   UserDetails {
 
     private Long id;
@@ -31,7 +34,7 @@ public class CJUser implements   UserDetails {
     private Boolean isAccountNonLocked = Boolean.TRUE;
     //表示登录凭据是否未过期
     private Boolean isCredentialsNonExpired = Boolean.TRUE;
-    //表示账户是否被禁用
+    //表示账户是否被启用
     private Boolean isEnabled = Boolean.TRUE;
 
 

@@ -3,6 +3,9 @@
  */
 package cj.springboot.security.template.security;
 
+import cj.springboot.security.template.util.jwt.CJJWTUtil;
+import cj.springboot.security.template.util.jwt.JwtUtil;
+import cj.springboot.security.template.util.redis.CJRedisCache;
 import cn.com.ns.cj.cjuniversalspringbootstarter.returnData.CJAjaxResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 
 /**
@@ -36,6 +40,8 @@ public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
 	private ObjectMapper objectMapper;
 
 
+	@Autowired
+	CJRedisCache cjRedisCache;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,13 +56,27 @@ public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
 
 		log.info("com.ns.cjcq.security.authentication.ImoocAuthenticationSuccessHandler.onAuthenticationSuccess 登录成功");
 
+		/*
+		 * 保存token到redis
+		 * */
+		CJUser loginUser = (CJUser) authentication.getPrincipal();
+		String userId = loginUser.getId().toString();
+		String jwt = CJJWTUtil.createJWT(userId);
+		//authenticate存入redis
+		cjRedisCache.setCacheObject("login:"+userId,loginUser);
+		//把token响应给前端
+		HashMap<String,String> map = new HashMap<>();
+		map.put("token",jwt);
+
+
 //		if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getLoginType())) {//loginType 默认设置JSON
 			response.setContentType("application/json;charset=UTF-8");
-			response.getWriter().write(objectMapper.writeValueAsString( CJAjaxResult.success("cj authentication success")));
+			response.getWriter().write(objectMapper.writeValueAsString( CJAjaxResult.success("cj authentication success",map)));
 
 //		} else {
 //			super.onAuthenticationSuccess(request, response, authentication);
 //		}
+
 
 	}
 

@@ -49,7 +49,7 @@ public class TestController {
     }
     @RequestMapping(value = "/cjsec/test2")
     public void testController02(){
-        System.out.println("cj.springboot.security.template.controller.test.TestController.testController01....");
+        System.out.println("cj.springboot.security.template.controller.test.TestController.testController02....");
     }
 
 

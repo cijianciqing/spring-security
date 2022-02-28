@@ -1,6 +1,5 @@
 package cj.springboot.security.template.security;
 
-import com.ns.cjcq.security.crud.domain.CJUser;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +29,7 @@ public class CJUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("cj.springboot.security.template.security.CJUserDetailsService.loadUserByUsername 登录用户名："+username);
         CJUser cjUser = new CJUser();
+        cjUser.setId(666L);
         cjUser.setUsername("u1");
         cjUser.setPassword(passwordEncoder.encode("123"));
         return  cjUser;

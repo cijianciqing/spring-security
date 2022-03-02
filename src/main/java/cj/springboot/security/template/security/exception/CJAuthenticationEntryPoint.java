@@ -16,7 +16,7 @@ public class CJAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException, IOException {
         log.info(authException.getMessage());
-
-        response.getWriter().write("login failed11:" + authException.getMessage());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("CJ需要认证: " + authException.getMessage());
     }
 }

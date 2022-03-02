@@ -53,12 +53,19 @@ public class CJJWTUtil {
 
     public static void main(String[] args) {
 
-        String u2 = Jwts.builder()
+        /*
+        * 最终测试
+        * */
+        String subject = parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.fjR3tHaXNTA6rHZ6W2bCWnWQ8daCtYTp5US_F5YqkhI").getSubject();
+        System.out.println(subject);
+
+
+     /*   String u2 = Jwts.builder()
 //                定义使用的JSON序列化工具，对应有deserializeJsonWith
                 .setSubject("u2")
                 .signWith(key).compact();
         System.out.println(u2);
-
+*/
         /*
          * 获取一个复合要求的Key,并获取Key的String
          * 可以保存这个String,以后获取固定的Key

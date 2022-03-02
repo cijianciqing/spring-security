@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
@@ -30,6 +31,7 @@ import java.io.IOException;
 
 @Slf4j
 @Configuration
+@EnableWebSecurity
 public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -77,6 +79,7 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/cjRequireLogin").anonymous()
+                .antMatchers("/logout").permitAll()
 //                .anyRequest().authenticated()//不能在anyRequest后配置anyRequest
                 .anyRequest().access("@rbacService.hasPermission(request, authentication)");
 
@@ -117,10 +120,11 @@ public class CJSpringSecurityConfig extends WebSecurityConfigurerAdapter {
         * 并未成功 2022.2.23
         * */
         http.logout()
+                //.clearAuthentication()
                 //配置用户退出的URL
-                .logoutUrl("logout00")
+                .logoutUrl("/logout")//POST请求
                 //删除当前用户session,否则会产生invalidSession错误
-                .deleteCookies("JSESSIONID")
+                //.deleteCookies("JSESSIONID")
                 //注销成功后的处理
                 .logoutSuccessHandler(logoutSuccessHandler);
 

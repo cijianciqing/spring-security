@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -50,16 +51,19 @@ public class CJJwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = CJJWTUtil.parseJWT(token);
             userid = claims.getSubject();
         } catch (Exception e) {
+
             e.printStackTrace();
             throw new RuntimeException("token非法");
         }
         //从redis中获取用户信息
-        String redisKey = "login:" + userid;
+        String redisKey = "templatelogin:" + userid;
         CJUser loginUser = redisCache.getCacheObject(redisKey);
         if(Objects.isNull(loginUser)){
-            log.info("CJJwtAuthenticationTokenFilter....用户未登录....");
+            log.info("CJJwtAuthenticationTokenFilter....用户未登录或已超时....");
             throw new RuntimeException("用户未登录");
         }
+        //更新过期时间
+        redisCache.expire(redisKey, 1, TimeUnit.HOURS);
         //存入SecurityContextHolder
         //TODO 获取权限信息封装到Authentication中
         UsernamePasswordAuthenticationToken authenticationToken =

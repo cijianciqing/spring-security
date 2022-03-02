@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -63,7 +64,7 @@ public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
 		String userId = loginUser.getId().toString();
 		String jwt = CJJWTUtil.createJWT(userId);
 		//authenticate存入redis
-		cjRedisCache.setCacheObject("login:"+userId,loginUser);
+		cjRedisCache.setCacheObject("templatelogin:"+userId,loginUser,1, TimeUnit.HOURS);
 		//把token响应给前端
 		HashMap<String,String> map = new HashMap<>();
 		map.put("token",jwt);

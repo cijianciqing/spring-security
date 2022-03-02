@@ -18,6 +18,7 @@ public class CJAccessDeniedHandler  implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info(accessDeniedException.getMessage());
         response.setStatus(403);
-        response.getWriter().write("Forbidden11:" + accessDeniedException.getMessage());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("CJ权限不足: " + accessDeniedException.getMessage());
     }
 }
